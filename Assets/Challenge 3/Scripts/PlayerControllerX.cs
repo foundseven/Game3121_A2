@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerControllerX : MonoBehaviour
 {
@@ -17,28 +18,53 @@ public class PlayerControllerX : MonoBehaviour
     public AudioClip moneySound;
     public AudioClip explodeSound;
 
+    //Q 1. adding new input action refs
+    [SerializeField]
+    public PlayerInputActions playerInputAction;
+    private InputAction playerMovement;
+
+    private void Awake()
+    {
+        //Q 1. setting them up
+        playerInputAction = new PlayerInputActions();
+        playerMovement = playerInputAction.Player.FloatUp;
+    }
+    //Q 1. adding on enable on disable
+    private void OnEnable()
+    {
+        Debug.Log("Input Actions Enabled");
+        playerInputAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("Input Actions Disabled");
+        playerInputAction.Disable();
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
         Physics.gravity *= gravityModifier;
         playerAudio = GetComponent<AudioSource>();
+        playerRb = GetComponent<Rigidbody>();
 
         // Apply a small upward force at the start of the game
         playerRb.AddForce(Vector3.up * 5, ForceMode.Impulse);
-
-        //add a reference
-        playerRb = GetComponent<Rigidbody>();
-
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        // While space is pressed and player is low enough, float up
-        if (Input.GetKey(KeyCode.Space) && !gameOver)
+        Debug.Log("Float Input: " + playerMovement.ReadValue<float>());
+
+        //Q 1. apply the upward force
+        if (playerMovement.ReadValue<float>() > 0 && !gameOver)
         {
-            playerRb.AddForce(Vector3.up * floatForce);
+            // Apply upward force to the balloon
+            playerRb.AddForce(Vector3.up * floatForce);  // Modify floatForce as needed
         }
     }
 

@@ -1,0 +1,34 @@
+{
+    "name": "PlayerInputActions",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "e8b77ca9-0bbf-4054-b1c3-b09dc93cfc8a",
+            "actions": [
+                {
+                    "name": "FloatUp",
+                    "type": "Button",
+                    "id": "8fa793bb-9801-4f89-a2c1-a892eea5b3a2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "184f0b03-6cb5-47b5-950f-74f639467476",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FloatUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
