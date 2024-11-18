@@ -59,20 +59,26 @@ public class PlayerControllerX : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
 
         // Apply a small upward force at the start of the game
-        playerRb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+        //playerRb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+        playerRb.AddForce(new float3(0, 5, 0), ForceMode.Impulse);
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Float Input: " + playerMovement.ReadValue<float>());
+        float floatInput = playerMovement.ReadValue<float>();
+        Debug.Log("Float Input: " + floatInput);
 
         //Q 1. apply the upward force
-        if (playerMovement.ReadValue<float>() > 0 && !gameOver)
+        //if (playerMovement.ReadValue<float>() > 0 && !gameOver)
+        //{
+        //    // Apply upward force to the balloon
+        //    playerRb.AddForce(Vector3.up * floatForce);
+        //}
+        if (floatInput > 0 && !gameOver)
         {
-            // Apply upward force to the balloon
-            playerRb.AddForce(Vector3.up * floatForce);
+            playerRb.AddForce(new float3(0, floatForce, 0));  // Use float3 for force direction
         }
         //Q 6. call in update
         BoundaryCheck();
@@ -114,8 +120,11 @@ public class PlayerControllerX : MonoBehaviour
         //    Mathf.Clamp(transform.position.y, boundaryYLower, boundaryYUpper),
         //    transform.position.z);
 
+        //convert the transform pos to the float3
         float3 currentPosition = new float3(transform.position.x, transform.position.y, transform.position.z);
+        //clamp the y
         currentPosition.y = math.clamp(currentPosition.y, boundaryYLower, boundaryYUpper);
+        //convert it back to vec3 for unitys transform
         transform.position = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z);
     }
 
@@ -124,7 +133,8 @@ public class PlayerControllerX : MonoBehaviour
     {
         //reset vert vel
         playerRb.velocity = new Vector3(playerRb.position.x, 0, playerRb.velocity.z);
-        playerRb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+        // playerRb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+        playerRb.AddForce(new float3(0, bounceForce, 0), ForceMode.Impulse);
         playerAudio.PlayOneShot(bounceSound, 1.0f);
     }
 
