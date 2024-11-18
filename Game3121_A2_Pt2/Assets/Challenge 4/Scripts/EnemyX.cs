@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
 
 public class EnemyX : MonoBehaviour
 {
@@ -20,8 +21,8 @@ public class EnemyX : MonoBehaviour
     void Update()
     {
         // Set enemy direction towards player goal and move there
-        Vector3 lookDirection = (playerGoal.transform.position - transform.position).normalized;
-        enemyRb.AddForce(lookDirection * speed * Time.deltaTime);
+        float3 lookDirection = math.normalize((float3)(playerGoal.transform.position - transform.position));
+        enemyRb.AddForce((Vector3)(lookDirection * speed * Time.deltaTime));
     }
 
     private void OnCollisionEnter(Collision other)
@@ -35,7 +36,5 @@ public class EnemyX : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
-
 }

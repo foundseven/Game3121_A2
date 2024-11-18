@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Boost",
+                    "type": "Button",
+                    "id": "21815164-b841-41f7-b1de-f2fc86b6b5ea",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -251,6 +260,17 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6d6de3a-be1a-497c-9ffa-a3efc7e0241e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Boost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
