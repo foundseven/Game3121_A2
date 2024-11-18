@@ -23,6 +23,10 @@ public class PlayerControllerX : MonoBehaviour
     public PlayerInputActions playerInputAction;
     private InputAction playerMovement;
 
+    //Q 6. creating floats for boundary
+    public float boundaryYUpper = 14.0f;
+    public float boundaryYLower = 1.0f;
+
     private void Awake()
     {
         //Q 1. setting them up
@@ -64,8 +68,10 @@ public class PlayerControllerX : MonoBehaviour
         if (playerMovement.ReadValue<float>() > 0 && !gameOver)
         {
             // Apply upward force to the balloon
-            playerRb.AddForce(Vector3.up * floatForce);  // Modify floatForce as needed
+            playerRb.AddForce(Vector3.up * floatForce);
         }
+        //Q 6. call in update
+        BoundaryCheck();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -89,6 +95,14 @@ public class PlayerControllerX : MonoBehaviour
 
         }
 
+    }
+    //Q 6. boundary check func
+    public void BoundaryCheck()
+    {
+        transform.position = new Vector3(
+            transform.position.x,
+            Mathf.Clamp(transform.position.y, boundaryYLower, boundaryYUpper),
+            transform.position.z);
     }
 
 }
