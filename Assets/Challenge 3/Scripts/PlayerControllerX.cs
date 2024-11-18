@@ -27,6 +27,10 @@ public class PlayerControllerX : MonoBehaviour
     public float boundaryYUpper = 14.0f;
     public float boundaryYLower = 1.0f;
 
+    //Q 7. creating float for boundary and SFX
+    public float bounceForce;
+    public AudioClip bounceSound;
+
     private void Awake()
     {
         //Q 1. setting them up
@@ -72,6 +76,12 @@ public class PlayerControllerX : MonoBehaviour
         }
         //Q 6. call in update
         BoundaryCheck();
+
+        //Q 7. bounce check
+        if(transform.position.y <= boundaryYLower)
+        {
+            Bounce();
+        }
     }
 
     private void OnCollisionEnter(Collision other)
@@ -103,6 +113,15 @@ public class PlayerControllerX : MonoBehaviour
             transform.position.x,
             Mathf.Clamp(transform.position.y, boundaryYLower, boundaryYUpper),
             transform.position.z);
+    }
+
+    //Q 7.bounce check func
+    public void Bounce()
+    {
+        //reset vert vel
+        playerRb.velocity = new Vector3(playerRb.position.x, 0, playerRb.velocity.z);
+        playerRb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+        playerAudio.PlayOneShot(bounceSound, 1.0f);
     }
 
 }
