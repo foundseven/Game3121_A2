@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
 
 public class MoveLeftX : MonoBehaviour
 {
@@ -21,7 +22,13 @@ public class MoveLeftX : MonoBehaviour
         //Q 2. added ! to make it move
         if (!playerControllerScript.gameOver)
         {
-            transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
+            //transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
+            //left direction
+            float3 moveDirection = new float3(-1, 0, 0);
+            float3 movement = moveDirection * speed * Time.deltaTime;
+
+            //apply the movement - convert back for unity's transform
+            transform.Translate(new Vector3(movement.x, movement.y, movement.z), Space.World);
         }
 
         // If object goes off screen that is NOT the background, destroy it
