@@ -19,7 +19,6 @@ public class PlayerControllerX : MonoBehaviour
     public AudioClip explodeSound;
 
     //Q 1. adding new input action refs
-    [SerializeField]
     public PlayerInputActions playerInputAction;
     private InputAction playerMovement;
 
@@ -35,19 +34,22 @@ public class PlayerControllerX : MonoBehaviour
     {
         //Q 1. setting them up
         playerInputAction = new PlayerInputActions();
-        playerMovement = playerInputAction.Player.FloatUp;
+        //playerMovement = playerInputAction.Player.FloatUp;
     }
     //Q 1. adding on enable on disable
     private void OnEnable()
     {
         Debug.Log("Input Actions Enabled");
+        playerMovement = playerInputAction.Player.FloatUp;
         playerInputAction.Enable();
+        playerMovement.performed += FloatUp;
     }
 
     private void OnDisable()
     {
         Debug.Log("Input Actions Disabled");
         playerInputAction.Disable();
+        playerMovement.performed -= FloatUp;
     }
 
 
@@ -66,20 +68,7 @@ public class PlayerControllerX : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        float floatInput = playerMovement.ReadValue<float>();
-        Debug.Log("Float Input: " + floatInput);
-
-        //Q 1. apply the upward force
-        //if (playerMovement.ReadValue<float>() > 0 && !gameOver)
-        //{
-        //    // Apply upward force to the balloon
-        //    playerRb.AddForce(Vector3.up * floatForce);
-        //}
-        if (floatInput > 0 && !gameOver)
-        {
-            playerRb.AddForce(new float3(0, floatForce, 0));  // Use float3 for force direction
-        }
+    {   
         //Q 6. call in update
         BoundaryCheck();
 
@@ -87,6 +76,21 @@ public class PlayerControllerX : MonoBehaviour
         if(transform.position.y <= boundaryYLower)
         {
             Bounce();
+        }
+    }
+
+    public void FloatUp(InputAction.CallbackContext context)
+    {
+        //Q 1. apply the upward force
+        //if (playerMovement.ReadValue<float>() > 0 && !gameOver)
+        //{
+        //    // Apply upward force to the balloon
+        //    playerRb.AddForce(Vector3.up * floatForce);
+        //}
+
+        if (!gameOver)
+        {
+            playerRb.AddForce(new float3(0, floatForce, 0), ForceMode.Impulse);  // Use float3 for force direction
         }
     }
 
@@ -132,7 +136,7 @@ public class PlayerControllerX : MonoBehaviour
     public void Bounce()
     {
         //reset vert vel
-        playerRb.velocity = new Vector3(playerRb.position.x, 0, playerRb.velocity.z);
+        playerRb.velocity = new float3(playerRb.position.x, 0, playerRb.velocity.z);
         // playerRb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
         playerRb.AddForce(new float3(0, bounceForce, 0), ForceMode.Impulse);
         playerAudio.PlayOneShot(bounceSound, 1.0f);

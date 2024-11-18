@@ -965,7 +965,7 @@ MonoBehaviour:
   explodeSound: {fileID: 8300000, guid: 774ebc5c074ce4695b7cc310fbd44087, type: 3}
   boundaryYUpper: 14
   boundaryYLower: 1
-  bounceForce: 2
+  bounceForce: 3
   bounceSound: {fileID: 8300000, guid: ccb9b31174a3a43709a113a9c7cf4252, type: 3}
 --- !u!1001 &2097113909
 PrefabInstance:
