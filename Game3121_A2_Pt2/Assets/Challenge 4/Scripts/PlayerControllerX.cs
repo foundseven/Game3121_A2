@@ -40,6 +40,8 @@ public class PlayerControllerX : MonoBehaviour
             Destroy(other.gameObject);
             hasPowerup = true;
             powerupIndicator.SetActive(true);
+            //Q 3. need to call on coroutine
+            StartCoroutine(PowerupCooldown());
         }
     }
 
