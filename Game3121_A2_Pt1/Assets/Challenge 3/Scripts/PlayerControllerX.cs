@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Unity.Mathematics;
 public class PlayerControllerX : MonoBehaviour
 {
     public bool gameOver;
@@ -109,10 +109,14 @@ public class PlayerControllerX : MonoBehaviour
     //Q 6. boundary check func
     public void BoundaryCheck()
     {
-        transform.position = new Vector3(
-            transform.position.x,
-            Mathf.Clamp(transform.position.y, boundaryYLower, boundaryYUpper),
-            transform.position.z);
+        //transform.position = new Vector3(
+        //    transform.position.x,
+        //    Mathf.Clamp(transform.position.y, boundaryYLower, boundaryYUpper),
+        //    transform.position.z);
+
+        float3 currentPosition = new float3(transform.position.x, transform.position.y, transform.position.z);
+        currentPosition.y = math.clamp(currentPosition.y, boundaryYLower, boundaryYUpper);
+        transform.position = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z);
     }
 
     //Q 7.bounce check func
