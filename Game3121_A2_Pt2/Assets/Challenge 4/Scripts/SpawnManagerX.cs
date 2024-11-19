@@ -1,19 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
 
 public class SpawnManagerX : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
 
-    private float spawnRangeX = 10;
-    private float spawnZMin = 15; // set min spawn Z
-    private float spawnZMax = 25; // set max spawn Z
-
+    public float spawnRangeX = 10;
+    public float spawnZMin = 15; // set min spawn Z
+    public float spawnZMax = 25; // set max spawn Z
     public int enemyCount;
     public int waveCount = 1;
-
 
     public GameObject player; 
 
@@ -31,29 +30,31 @@ public class SpawnManagerX : MonoBehaviour
     }
 
     // Generate random spawn position for powerups and enemy balls
-    Vector3 GenerateSpawnPosition ()
+    float3 GenerateSpawnPosition ()
     {
-        float xPos = Random.Range(-spawnRangeX, spawnRangeX);
-        float zPos = Random.Range(spawnZMin, spawnZMax);
-        return new Vector3(xPos, 0, zPos);
+        float xPos = UnityEngine.Random.Range(-spawnRangeX, spawnRangeX);
+        float zPos = UnityEngine.Random.Range(spawnZMin, spawnZMax);
+        return new float3(xPos, 0, zPos);
     }
 
 
     void SpawnEnemyWave(int enemiesToSpawn)
     {
-        Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // make powerups spawn at player end
+        float3 powerupSpawnOffset = new float3(0, 0, -15); // make powerups spawn at player end
 
         // If no powerups remain, spawn a powerup
         if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0) // check that there are zero powerups
         {
-            Instantiate(powerupPrefab, GenerateSpawnPosition() + powerupSpawnOffset, powerupPrefab.transform.rotation);
+            Instantiate(powerupPrefab, (Vector3)(GenerateSpawnPosition() + powerupSpawnOffset), powerupPrefab.transform.rotation);
         }
 
         // Spawn number of enemy balls based on wave number
         //Q 4. changed from 2 to enemiesToSpawn
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            var o = Instantiate(enemyPrefab, (Vector3)GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            EnemyX enemyX = o.GetComponent<EnemyX>();
+            enemyX.speed = waveCount * 5;
         }
 
         waveCount++;
