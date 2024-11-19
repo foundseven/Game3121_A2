@@ -129,7 +129,7 @@ public class PlayerControllerX : MonoBehaviour
         //clamp the y
         currentPosition.y = math.clamp(currentPosition.y, boundaryYLower, boundaryYUpper);
         //convert it back to vec3 for unitys transform
-        transform.position = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z);
+        transform.position = new float3(currentPosition.x, currentPosition.y, currentPosition.z);
     }
 
     //Q 7.bounce check func

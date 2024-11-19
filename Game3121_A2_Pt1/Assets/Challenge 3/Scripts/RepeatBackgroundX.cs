@@ -27,7 +27,7 @@ public class RepeatBackgroundX : MonoBehaviour
         if (currentPosition.x < startPos.x - repeatWidth)
         {
             //convert it back
-            transform.position = new Vector3(startPos.x, currentPosition.y, currentPosition.z);
+            transform.position = new float3(startPos.x, currentPosition.y, currentPosition.z);
         }
     }
 

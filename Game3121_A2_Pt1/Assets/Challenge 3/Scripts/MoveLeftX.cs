@@ -28,7 +28,7 @@ public class MoveLeftX : MonoBehaviour
             float3 movement = moveDirection * speed * Time.deltaTime;
 
             //apply the movement - convert back for unity's transform
-            transform.Translate(new Vector3(movement.x, movement.y, movement.z), Space.World);
+            transform.Translate(new float3(movement.x, movement.y, movement.z), Space.World);
         }
 
         // If object goes off screen that is NOT the background, destroy it
